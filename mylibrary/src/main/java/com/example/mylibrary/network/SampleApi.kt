@@ -8,4 +8,8 @@ import retrofit2.http.GET
 interface SampleApi {
 	@GET("userInfo")
 	fun getUserInfo(): Observable<ApiResponse<User>>
+
+
+	@GET("info")
+	fun <T> getInfo(): Observable<ApiResponse<T>>
 }

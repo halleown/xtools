@@ -1,9 +1,27 @@
 package com.example.mylibrary.converter;
 
+import java.nio.ByteBuffer;
+
 /**
  * 十六进制转换
  */
 public class HexConverter {
+
+
+    /**
+     * 十六进制字符串转ByteBuffer
+     * @param data 十六进制数据
+     * @return ByteBuffer类型数据
+     */
+    public static ByteBuffer hexToByteBuffer(String data) {
+        String[] hex = data.split(" ");
+        ByteBuffer buffer = ByteBuffer.allocate(hex.length);
+        for (int i = 0; i < hex.length; i++) {
+            buffer.put(i, (byte) hexToDecimal(hex[i]));
+        }
+        return buffer;
+    }
+
 
     /**
      * 十六进制转二进制

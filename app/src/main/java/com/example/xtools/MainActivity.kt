@@ -6,14 +6,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.mylibrary.network.BaseObserver
-import com.example.mylibrary.network.SampleApi
-import com.example.mylibrary.network.core.NetworkResult
-import com.example.mylibrary.network.getInfo1
-import com.example.mylibrary.network.model.User
-import com.example.mylibrary.network.retrofit.RetrofitProvider
-import com.example.mylibrary.network.rx.apiResponseToNetworkResult
-import com.example.mylibrary.network.rx.applyIoToMainSchedulers
+import com.joykade.xtools.network.BaseObserver
+import com.joykade.xtools.network.SampleApi
+import com.joykade.xtools.network.core.NetworkResult
+import com.joykade.xtools.network.getInfo1
+import com.joykade.xtools.network.model.User
+import com.joykade.xtools.network.retrofit.RetrofitProvider
+import com.joykade.xtools.network.rx.apiResponseToNetworkResult
+import com.joykade.xtools.network.rx.applyIoToMainSchedulers
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -34,7 +34,12 @@ class MainActivity : AppCompatActivity() {
         val api = provider.create(SampleApi::class.java)
 
         api.getInfo1<User>()
-            .doOnNext { r -> Log.d(TAG, "resp: success=${r.success}, code=${r.code}, msg=${r.message}, data=${r.data}") }
+            .doOnNext { r ->
+                Log.d(
+                    TAG,
+                    "resp: success=${r.success}, code=${r.code}, msg=${r.message}, data=${r.data}"
+                )
+            }
             .applyIoToMainSchedulers().compose(apiResponseToNetworkResult())
             .subscribe(object : BaseObserver<User>() {
                 override fun onStart() {

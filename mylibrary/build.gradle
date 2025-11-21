@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.mylibrary'
+    namespace 'com.joykade.xtools'
     compileSdk 36
 
     defaultConfig {

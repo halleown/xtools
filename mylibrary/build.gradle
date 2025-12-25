@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.joykade.xtools'
+    namespace 'com.halleown.xtools'
     compileSdk 36
 
     defaultConfig {
@@ -67,7 +67,7 @@ afterEvaluate {
     android.libraryVariants.each {variant->
         publishing.publications.create(variant.name,MavenPublication){
             from components.findByName(variant.name)
-            groupId = 'com.github.renoly'
+            groupId = 'com.github.halleown'
             artifactId = 'xtools'
             version = '1.0.0'
         }

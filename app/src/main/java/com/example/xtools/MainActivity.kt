@@ -6,14 +6,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.joykade.xtools.network.BaseObserver
-import com.joykade.xtools.network.SampleApi
-import com.joykade.xtools.network.core.NetworkResult
-import com.joykade.xtools.network.getInfo1
-import com.joykade.xtools.network.model.User
-import com.joykade.xtools.network.retrofit.RetrofitProvider
-import com.joykade.xtools.network.rx.apiResponseToNetworkResult
-import com.joykade.xtools.network.rx.applyIoToMainSchedulers
+import com.halleown.xtools.io.readFileFromAssets
+import com.halleown.xtools.network.BaseObserver
+import com.halleown.xtools.network.SampleApi
+import com.halleown.xtools.network.core.NetworkResult
+import com.halleown.xtools.network.getInfo1
+import com.halleown.xtools.network.model.User
+import com.halleown.xtools.network.retrofit.RetrofitProvider
+import com.halleown.xtools.network.rx.apiResponseToNetworkResult
+import com.halleown.xtools.network.rx.applyIoToMainSchedulers
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -64,6 +65,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "onFinish: ")
                 }
             })
+
+        Log.e(TAG, "onCreate: ${readFileFromAssets(this, "a.json")}")
 
     }
 }

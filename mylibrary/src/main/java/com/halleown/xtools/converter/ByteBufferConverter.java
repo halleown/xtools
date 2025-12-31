@@ -1,11 +1,7 @@
 package com.halleown.xtools.converter;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 public class ByteBufferConverter {
     /**
@@ -14,12 +10,16 @@ public class ByteBufferConverter {
      * @param byteBuffer
      * @return
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String byteBufferToString(ByteBuffer byteBuffer) {
         byteBuffer.rewind();
         byte[] bytes = new byte[byteBuffer.remaining()];
         byteBuffer.get(bytes);
-        return new String(bytes, StandardCharsets.UTF_8);
+        try {
+            return new String(bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -28,9 +28,14 @@ public class ByteBufferConverter {
      * @param str
      * @return
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static ByteBuffer stringToByteBuffer(String str) {
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        byte[] bytes;
+        try {
+            bytes = str.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
         return ByteBuffer.wrap(bytes);
     }
 

@@ -5,8 +5,7 @@ import android.util.Log
 import java.io.File
 import java.io.IOException
 import java.io.RandomAccessFile
-import java.lang.Exception
-import java.nio.charset.StandardCharsets
+import java.nio.charset.Charset
 
 
 /**
@@ -52,7 +51,7 @@ fun readFile(filePath: String): String {
         while (randomAccessFile.readLine().also { line = it } != null) {
             line?.let {
                 val string =
-                    String(it.toByteArray(charset("ISO-8859-1")), StandardCharsets.UTF_8)
+                    String(it.toByteArray(charset("ISO-8859-1")), Charset.forName("UTF-8"))
                 result.append(string)
             }
         }

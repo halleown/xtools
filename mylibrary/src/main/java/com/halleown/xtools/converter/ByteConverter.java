@@ -1,11 +1,7 @@
 package com.halleown.xtools.converter;
 
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
 
 public class ByteConverter {
 
@@ -15,9 +11,13 @@ public class ByteConverter {
      * @param data
      * @return
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String byteToString(byte[] data) {
-        return new String(data, StandardCharsets.UTF_8);
+        try {
+            return new String(data, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

@@ -2,11 +2,14 @@ package com.halleown.xtools.utils;
 
 import android.util.Log;
 
-import com.halleown.xtools.BuildConfig;
-
 public class LogUtil {
-    public static boolean isDebug = BuildConfig.DEBUG;
+    public static boolean isDebug = false;
     private static final String TAG = "xtools";
+
+    public static void init(boolean debug) {
+        isDebug = debug;
+    }
+
     /**
      * 获取相关数据:类名,方法名,行号等.用来定位行
      */

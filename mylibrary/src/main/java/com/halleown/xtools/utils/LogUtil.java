@@ -27,6 +27,10 @@ public class LogUtil {
                 if (st.getClassName().equals(TAG)) {
                     continue;
                 }
+                // 排除掉 LogUtil 类本身
+                if (st.getClassName().equals(LogUtil.class.getName())) {
+                    continue;
+                }
                 return "[ Thread:" + Thread.currentThread().getName() + ", at " + st.getClassName() + "." + st.getMethodName()
                         + "(" + st.getFileName() + ":" + st.getLineNumber() + ")" + " ]";
             }

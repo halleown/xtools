@@ -1,8 +1,10 @@
 package com.halleown.xtools.network.model
 
 data class User(
-    val id: Long,
-    val name: String,
-    val age: Int,
-    val desc: String
+    val userId: Int,
+    val username: String,
+    val email: String,
+    val avatar: String,
+    val birthdate: String,
+    val registeredAt: String
 )

@@ -11,7 +11,7 @@ import io.reactivex.ObservableTransformer
 fun <T> unwrapApiResponse(): ObservableTransformer<ApiResponse<T>, T> {
 	return ObservableTransformer { upstream: Observable<ApiResponse<T>> ->
 		upstream.flatMap { resp ->
-			if (resp.success && resp.data != null) {
+			if (resp.data != null) {
 				Observable.just(resp.data)
 			} else {
 				val error = NetworkResult.Error(

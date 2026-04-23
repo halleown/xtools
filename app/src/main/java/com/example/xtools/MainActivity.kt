@@ -6,18 +6,21 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.halleown.xtools.io.readFileFromAssets
+import com.halleown.xtools.XToolsConfig
 import com.halleown.xtools.network.BaseObserver
 import com.halleown.xtools.network.SampleApi
 import com.halleown.xtools.network.core.NetworkResult
-import com.halleown.xtools.network.getInfo1
+import com.halleown.xtools.network.getUserInfo1
 import com.halleown.xtools.network.model.User
 import com.halleown.xtools.network.retrofit.RetrofitProvider
 import com.halleown.xtools.network.rx.apiResponseToNetworkResult
 import com.halleown.xtools.network.rx.applyIoToMainSchedulers
+import com.halleown.xtools.utils.LogUtil
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
+    private lateinit var tvView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,19 +30,21 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val tvView = findViewById<TextView>(R.id.tv_view)
+        tvView = findViewById(R.id.tv_view)
 
-        val provider = RetrofitProvider(
-            "http://192.168.3.167:4523/m1/6823482-6537445-default/", true
-        )
+        XToolsConfig.init(true)
+        getUserInfo(1)
+    }
+
+
+    private fun getUserInfo(userId: Int) {
+        val provider = RetrofitProvider("http://192.168.3.178:3000/")
         val api = provider.create(SampleApi::class.java)
 
-        api.getInfo1<User>()
+        api.getUserInfo1<User>(userId)
             .doOnNext { r ->
-                Log.d(
-                    TAG,
-                    "resp: success=${r.success}, code=${r.code}, msg=${r.message}, data=${r.data}"
-                )
+                // io线程
+                LogUtil.e("$r")
             }
             .applyIoToMainSchedulers().compose(apiResponseToNetworkResult())
             .subscribe(object : BaseObserver<User>() {
@@ -52,21 +57,18 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onSuccess(data: User) {
-                    Log.d(TAG, "${Thread.currentThread().name}=======onSuccess: ${data}")
+                    LogUtil.e("$data")
                     tvView.text = data.toString()
                 }
 
                 override fun onError(error: NetworkResult.Error) {
                     // success=false 或者其他业务错误回调
-                    Log.e(TAG, "${Thread.currentThread().name}=======onError: ${error}")
+                    LogUtil.e("$error")
                 }
 
                 override fun onFinish() {
                     Log.d(TAG, "onFinish: ")
                 }
             })
-
-        Log.e(TAG, "onCreate: ${readFileFromAssets(this, "a.json")}")
-
     }
 }

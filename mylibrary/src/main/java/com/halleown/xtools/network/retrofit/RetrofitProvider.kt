@@ -1,5 +1,6 @@
 package com.halleown.xtools.network.retrofit
 
+import com.halleown.xtools.XToolsConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -9,10 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class RetrofitProvider(
-	private val baseUrl: String,
-	private val isDebug: Boolean = false
+	private val baseUrl: String
 ) {
-
 	private val connectTimeoutSec: Long = 15
 	private val readTimeoutSec: Long = 20
 	private val writeTimeoutSec: Long = 20
@@ -25,7 +24,8 @@ class RetrofitProvider(
 			.readTimeout(readTimeoutSec, TimeUnit.SECONDS)
 			.writeTimeout(writeTimeoutSec, TimeUnit.SECONDS)
 
-		if (isDebug) {
+		if (XToolsConfig.isDebug) {
+			// 开启网络请求打印
 			val logging = HttpLoggingInterceptor().apply {
 				level = HttpLoggingInterceptor.Level.BODY
 			}
